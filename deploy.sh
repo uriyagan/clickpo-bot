@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
-# Deploy the ClickPo AI Chatbot plugin to the SiteGround WordPress site over SSH/rsync.
+# Deploy the ClickPo AI Chatbot plugin to the WordPress site over SSH/rsync.
+# Connection details live in a git-ignored .deploy.env (see .deploy.env.example).
 # Usage: bash deploy.sh
 set -euo pipefail
 
-KEY="$HOME/.ssh/clickpo_bot_np"
-PORT=18765
-USER_HOST="u14-zs3qpwevxqov@c1134371.sgvps.net"
-REMOTE_DIR="~/www/clickpo.io/public_html/wp-content/plugins/clickpo-ai-chatbot"
-LOCAL_DIR="$(cd "$(dirname "$0")" && pwd)/"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+if [ -f "$SCRIPT_DIR/.deploy.env" ]; then
+  # shellcheck disable=SC1091
+  . "$SCRIPT_DIR/.deploy.env"
+else
+  echo "ERROR: $SCRIPT_DIR/.deploy.env not found. Copy .deploy.env.example to .deploy.env and fill it in." >&2
+  exit 1
+fi
+
+: "${KEY:?KEY not set in .deploy.env}"
+: "${PORT:?PORT not set in .deploy.env}"
+: "${USER_HOST:?USER_HOST not set in .deploy.env}"
+: "${REMOTE_DIR:?REMOTE_DIR not set in .deploy.env}"
+
+LOCAL_DIR="$SCRIPT_DIR/"
 
 echo "Deploying to $USER_HOST:$REMOTE_DIR ..."
 
@@ -19,6 +31,8 @@ rsync -az --delete \
   --exclude 'node_modules' \
   --exclude 'BUILD_PLAN.md' \
   --exclude 'deploy.sh' \
+  --exclude '.deploy.env' \
+  --exclude '.deploy.env.example' \
   "$LOCAL_DIR" \
   "$USER_HOST:$REMOTE_DIR/"
 
