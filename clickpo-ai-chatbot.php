@@ -3,7 +3,7 @@
  * Plugin Name: ClickPo AI Chatbot
  * Plugin URI:  https://www.clickpo.io
  * Description: Hebrew (RTL) AI chatbot that answers visitors from an approved knowledge base, recommends the best plan, and saves conversations. Info-only, powered by Google Gemini.
- * Version:     0.9.0
+ * Version:     0.9.1
  * Author:      ClickPo
  * Text Domain: clickpo-ai-chatbot
  * Domain Path: /languages
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // No direct access.
 }
 
-define( 'CLICKPO_BOT_VERSION', '0.9.0' );
+define( 'CLICKPO_BOT_VERSION', '0.9.1' );
 define( 'CLICKPO_BOT_FILE', __FILE__ );
 define( 'CLICKPO_BOT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CLICKPO_BOT_URL', plugin_dir_url( __FILE__ ) );

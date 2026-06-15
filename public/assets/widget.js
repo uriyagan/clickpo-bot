@@ -223,6 +223,27 @@
 		addSuggestions();
 	}
 
+	// On phones, size the full-screen panel to the visible viewport so the input
+	// stays above the on-screen keyboard (iOS Safari shrinks visualViewport).
+	function isMobile() {
+		return window.matchMedia( '(max-width: 600px)' ).matches;
+	}
+	function fitMobile() {
+		if ( panel.hidden || ! isMobile() || ! window.visualViewport ) {
+			panel.style.height = '';
+			panel.style.top = '';
+			return;
+		}
+		var vv = window.visualViewport;
+		panel.style.height = vv.height + 'px';
+		panel.style.top = ( vv.offsetTop || 0 ) + 'px';
+	}
+	if ( window.visualViewport ) {
+		window.visualViewport.addEventListener( 'resize', fitMobile );
+		window.visualViewport.addEventListener( 'scroll', fitMobile );
+	}
+	window.addEventListener( 'resize', fitMobile );
+
 	function openPanel() {
 		panel.hidden = false;
 		lsSet( OPEN_KEY, '1' );
@@ -230,10 +251,13 @@
 			greeted = true;
 			greet();
 		}
+		fitMobile();
 		if ( input ) { input.focus(); }
 	}
 	function closePanel() {
 		panel.hidden = true;
+		panel.style.height = '';
+		panel.style.top = '';
 		lsDel( OPEN_KEY );
 	}
 

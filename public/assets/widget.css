@@ -262,3 +262,32 @@
 	filter: brightness(1.05);
 	box-shadow: 0 7px 20px rgba(0, 0, 0, .28);
 }
+
+/* ---------- Mobile: full-screen panel that stays above the keyboard ---------- */
+@media (max-width: 600px) {
+	.clickpo-bot-panel {
+		position: fixed;
+		top: 0;
+		bottom: auto;
+		width: 100%;
+		max-width: 100%;
+		height: 100vh;
+		height: 100dvh;
+		max-height: none;
+		border-radius: 0;
+		box-shadow: none;
+	}
+	.clickpo-bot-pos-left .clickpo-bot-panel,
+	.clickpo-bot-pos-right .clickpo-bot-panel {
+		left: 0;
+		right: 0;
+	}
+	.clickpo-bot-header {
+		padding-top: calc(14px + env(safe-area-inset-top));
+	}
+	.clickpo-bot-form {
+		padding-bottom: calc(10px + env(safe-area-inset-bottom));
+	}
+	/* Bubble corners look better as near-edge speech bubbles on small screens */
+	.clickpo-bot-msg { max-width: 88%; }
+}
